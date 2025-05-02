@@ -1,11 +1,14 @@
-﻿namespace InventoryManagementSystem.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using ServiceStack.DataAnnotations;
+
+namespace InventoryManagementSystem.Models
 {
-    public class Warehouse
+    public class Warehouse : BaseModel
     {
-        public int WarehouseId { get; set; }
+        [Unique]
         public string Name { get; set; }
         public string? Location { get; set; }
-
         public ICollection<ProductStock> ProductStocks { get; set; }
     }
 }
