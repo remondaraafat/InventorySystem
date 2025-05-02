@@ -1,4 +1,4 @@
-﻿using InventoryManagementSystem.DTOs.Product;
+﻿
 using InventoryManagementSystem.UnitOfWork_Contract;
 using Microsoft.EntityFrameworkCore;
 

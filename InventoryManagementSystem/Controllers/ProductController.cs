@@ -1,5 +1,5 @@
-﻿using InventoryManagementSystem.DTOs.Product;
-using InventoryManagementSystem.Services;
+﻿using InventoryManagementSystem.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +14,7 @@ namespace InventoryManagementSystem.Controllers
             _productService = ProductService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllById() {
+        public async Task<IActionResult> GetAll() {
             try
             {
                 List<GetAllProductDTO> productsDTO = await _productService.GetAllProductRequest();
@@ -28,6 +28,7 @@ namespace InventoryManagementSystem.Controllers
                 return StatusCode(500, new { message = "An error occurred while retrieving the products." });
             }
         }
+
         [HttpGet("{id}")]
 
         public async Task<IActionResult> GetById(int id)
@@ -46,6 +47,7 @@ namespace InventoryManagementSystem.Controllers
                 return StatusCode(500, new { message = "An error occurred while retrieving the product." });
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct(AddProductDTO productDTO)
         {
@@ -61,6 +63,7 @@ namespace InventoryManagementSystem.Controllers
                 return StatusCode(500, new { message = "An error occurred while Creating the product." });
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> EditProduct(EditProductDTO productDTO)
         {
@@ -77,6 +80,7 @@ namespace InventoryManagementSystem.Controllers
                 return StatusCode(500, new { message = "An error occurred while updating the product." });
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct( int id)
         {

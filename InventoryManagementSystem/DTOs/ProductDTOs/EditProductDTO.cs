@@ -4,7 +4,7 @@ using ServiceStack.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace InventoryManagementSystem.DTOs.Product
+namespace InventoryManagementSystem.DTOs.ProductDTOs
 {
     public class EditProductDTO
     {

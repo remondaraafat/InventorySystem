@@ -1,27 +1,27 @@
-﻿using SCDS = System.ComponentModel.DataAnnotations.Schema;
-using SCD=System.ComponentModel.DataAnnotations;
-using ServiceStack.DataAnnotations;
+﻿using  System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace InventoryManagementSystem.Models
 {
     public class Product : BaseModel
     {
-        [SCD.Required(ErrorMessage = "Product name is required.")]
-        [SCD.StringLength(100, ErrorMessage = "Product name can't exceed 100 characters.")]
-        [Unique] // ORM => search ?? 
+        [Required(ErrorMessage = "Product name is required.")]
+        [StringLength(100, ErrorMessage = "Product name can't exceed 100 characters.")]
+        
         public string Name { get; set; }
 
-        [SCD.StringLength(500, ErrorMessage = "Description can't exceed 500 characters.")]
+        [StringLength(500, ErrorMessage = "Description can't exceed 500 characters.")]
         public string? Description { get; set; }
 
-        [SCD.Range(0, int.MaxValue, ErrorMessage = "Low stock threshold must be a non-negative number.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Low stock threshold must be a non-negative number.")]
         public int LowStockThreshold { get; set; }
 
-        [SCD.Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0.")]
         public decimal Price { get; set; }
 
-        [SCDS.ForeignKey("Category")]
-        [SCD.Required(ErrorMessage = "Category is required.")]
+        [ForeignKey("Category")]
+        [Required(ErrorMessage = "Category is required.")]
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }

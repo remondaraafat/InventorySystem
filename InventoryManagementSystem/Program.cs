@@ -20,22 +20,24 @@ namespace InventoryManagementSystem
             // Add services to the container.
 
             builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());//for serializing enum
-    });
+            .AddJsonOptions(options =>
+             {
+                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());//for serializing enum
+             });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-            builder.Services.AddDbContext<InventorySystemContext>(option => {
+            builder.Services.AddDbContext<InventorySystemContext>(option =>
+            {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
-            
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<InventorySystemContext>();
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                 .AddEntityFrameworkStores<InventorySystemContext>();
 
             //Setting Authanticatio  Middleware check using JWTToke
-            builder.Services.AddAuthentication(options => {
+            builder.Services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme =
                     JwtBearerDefaults.AuthenticationScheme;//check using jwt toke
                 options.DefaultChallengeScheme =
@@ -56,17 +58,21 @@ namespace InventoryManagementSystem
                     (Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
                 };
             });
-
+            //unitofwork
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //service
             builder.Services.AddScoped<ProductService, ProductService>();
-
+            builder.Services.AddScoped<TransactionHistoryService, TransactionHistoryService>();
+            builder.Services.AddScoped<ProductStockService, ProductStockService>();
+            //repository
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ITransactionHistoryRepository, TransactionHistoryRepository>();
+            builder.Services.AddScoped<IProductStockRepository, ProductStockRepository>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -81,5 +87,6 @@ namespace InventoryManagementSystem
 
             app.Run();
         }
+        
     }
 }

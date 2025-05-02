@@ -1,6 +1,6 @@
 ﻿using ServiceStack.DataAnnotations;
 
-namespace InventoryManagementSystem.DTOs.Product
+namespace InventoryManagementSystem.DTOs.ProductDTOs
 {
     public class GetProductDTO
     {
