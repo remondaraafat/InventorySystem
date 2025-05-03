@@ -21,7 +21,7 @@ namespace InventoryManagementSystem.DTOs.TransactionHistoryDTOs
 
         [Required(ErrorMessage = "UserId is required.")]
         public string UserId { get; set; }
-        public IdentityUser User { get; set; }
+        
 
         [Required(ErrorMessage = "TransactionTypeId is required.")]
         public int TransactionTypeId { get; set; }

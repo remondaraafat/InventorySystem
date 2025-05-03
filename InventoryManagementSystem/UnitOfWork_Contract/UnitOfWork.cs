@@ -38,9 +38,9 @@ namespace InventoryManagementSystem.UnitOfWork_Contract
                 return _productStockRepository;
             }
         }
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
         }
     }
 }

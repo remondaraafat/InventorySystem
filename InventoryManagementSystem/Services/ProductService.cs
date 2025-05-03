@@ -64,7 +64,7 @@ namespace InventoryManagementSystem.Services
             productFromDB.CategoryId = productDTO.CategoryId;
 
             await _unitOfWork.productRepository.UpdateAsync(productFromDB);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
             return true;
         }
         //add
@@ -79,13 +79,13 @@ namespace InventoryManagementSystem.Services
 
             };
             _unitOfWork.productRepository.AddAsync(NewProduct);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
             return await this.GetProductRequestByName(productDTO.ProductName);
         }
         //delete
         public async Task<bool> DeleteRequest(int id ) {
             bool result =await _unitOfWork.productRepository.Delete(p => p.ID == id);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
             return result;
         }
     }

@@ -7,6 +7,6 @@
         public IProductStockRepository ProductStockRepository { get; }
 
 
-        void Save();
+        Task SaveAsync();
     }
 }
