@@ -64,10 +64,7 @@ namespace InventoryManagementSystem
             builder.Services.AddScoped<ProductService, ProductService>();
             builder.Services.AddScoped<TransactionHistoryService, TransactionHistoryService>();
             builder.Services.AddScoped<ProductStockService, ProductStockService>();
-            //repository
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            builder.Services.AddScoped<ITransactionHistoryRepository, TransactionHistoryRepository>();
-            builder.Services.AddScoped<IProductStockRepository, ProductStockRepository>();
+            
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

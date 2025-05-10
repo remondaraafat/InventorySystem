@@ -5,22 +5,25 @@ namespace InventoryManagementSystem.UnitOfWork_Contract
     public class UnitOfWork : IUnitOfWork
     {
         readonly InventorySystemContext _context;
-        readonly IProductRepository _productRepository;
-        readonly ITransactionHistoryRepository _transactionRepository;
-        readonly IProductStockRepository _productStockRepository;
+         IProductRepository _productRepository;
+         ITransactionHistoryRepository _transactionHistoryRepository;
+         IProductStockRepository _productStockRepository;
 
 
-        public UnitOfWork(InventorySystemContext context, IProductRepository productRepository, ITransactionHistoryRepository transactionRepository, IProductStockRepository productStockRepository)
+        public UnitOfWork(InventorySystemContext context)
         {
             _context = context;
-            _productRepository = productRepository;
-            _transactionRepository = transactionRepository;
-            _productStockRepository = productStockRepository;
+
+
         }
         public IProductRepository productRepository
         {
             get
             {
+                if (_productRepository==null){
+                _productRepository = new ProductRepository(_context);
+                }
+            
                 return _productRepository;
             }
         }
@@ -28,13 +31,21 @@ namespace InventoryManagementSystem.UnitOfWork_Contract
         {
             get
             {
-                return _transactionRepository;
+                if (_transactionHistoryRepository == null)
+                {
+                    _transactionHistoryRepository = new TransactionHistoryRepository(_context);
+                }
+                return _transactionHistoryRepository;
             }
         }
         public IProductStockRepository ProductStockRepository
         {
             get
             {
+                if (_productStockRepository == null)
+                {
+                    _productStockRepository = new ProductStockRepository(_context);
+                }
                 return _productStockRepository;
             }
         }
