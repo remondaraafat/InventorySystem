@@ -32,8 +32,8 @@ namespace InventoryManagementSystem
                 option.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                 .AddEntityFrameworkStores<InventorySystemContext>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>{})
+            .AddEntityFrameworkStores<InventorySystemContext>();
 
             //Setting Authanticatio  Middleware check using JWTToke
             builder.Services.AddAuthentication(options =>
@@ -64,7 +64,10 @@ namespace InventoryManagementSystem
             builder.Services.AddScoped<ProductService, ProductService>();
             builder.Services.AddScoped<TransactionHistoryService, TransactionHistoryService>();
             builder.Services.AddScoped<ProductStockService, ProductStockService>();
-            
+            builder.Services.AddScoped<CategoryService, CategoryService>();
+            builder.Services.AddScoped<TransactionTypeService, TransactionTypeService>();
+
+
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

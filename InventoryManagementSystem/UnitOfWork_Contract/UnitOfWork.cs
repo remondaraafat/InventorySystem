@@ -8,7 +8,8 @@ namespace InventoryManagementSystem.UnitOfWork_Contract
          IProductRepository _productRepository;
          ITransactionHistoryRepository _transactionHistoryRepository;
          IProductStockRepository _productStockRepository;
-
+        ICategoryRepository _categoryRepository;
+        ITransactionTypeRepository _transactionTypeRepository;
 
         public UnitOfWork(InventorySystemContext context)
         {
@@ -49,6 +50,30 @@ namespace InventoryManagementSystem.UnitOfWork_Contract
                 return _productStockRepository;
             }
         }
+
+        public ICategoryRepository CategoryRepository
+        {
+            get
+            {
+                if (_categoryRepository == null)
+                {
+                    _categoryRepository = new CategoryRepository(_context);
+                }
+                return _categoryRepository;
+            }
+        }
+        public ITransactionTypeRepository TransactionTypeRepository
+        {
+            get
+            {
+                if (_transactionTypeRepository == null)
+                {
+                    _transactionTypeRepository = new TransactionTypeRepository(_context);
+                }
+                return _transactionTypeRepository;
+            }
+        }
+
         public async Task SaveAsync()
         {
            await _context.SaveChangesAsync();
