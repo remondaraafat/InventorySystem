@@ -38,8 +38,8 @@ namespace InventoryManagementSystem.Controllers
                     IdentityResult result = await userManager.CreateAsync(user, userFromConsumer.Password);
                     if (result.Succeeded)
                     {
-                        
-                        return Ok("Account Create Success");
+                    return Ok(new { message = "Account Create Success" });
+                    
                     }
                     foreach (var item in result.Errors)
                     {

@@ -1,4 +1,3 @@
-
 using InventoryManagementSystem.Data;
 using InventoryManagementSystem.Services;
 using InventoryManagementSystem.UnitOfWork_Contract;
@@ -17,13 +16,26 @@ namespace InventoryManagementSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularApp",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                               .AllowAnyMethod()
+                               .AllowAnyHeader()
+                               .AllowCredentials();
+                    });
+            });
 
+
+            // Add services to the container.
+            builder.Services.AddControllers();
             builder.Services.AddControllers()
             .AddJsonOptions(options =>
-             {
-                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());//for serializing enum
-             });
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());//for serializing enum
+            });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
@@ -32,7 +44,7 @@ namespace InventoryManagementSystem
                 option.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>{})
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => { })
             .AddEntityFrameworkStores<InventorySystemContext>();
 
             //Setting Authanticatio  Middleware check using JWTToke
@@ -53,9 +65,13 @@ namespace InventoryManagementSystem
                     ValidateIssuer = true,
                     ValidIssuer = builder.Configuration["JWT:Iss"],//proivder
                     ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
                     ValidAudience = builder.Configuration["JWT:Aud"],
                     IssuerSigningKey = new SymmetricSecurityKey
-                    (Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+                    (Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+
+                    RoleClaimType = "role"
                 };
             });
             //unitofwork
@@ -66,6 +82,7 @@ namespace InventoryManagementSystem
             builder.Services.AddScoped<ProductStockService, ProductStockService>();
             builder.Services.AddScoped<CategoryService, CategoryService>();
             builder.Services.AddScoped<TransactionTypeService, TransactionTypeService>();
+            builder.Services.AddScoped<WarehouseService, WarehouseService>();
 
 
 
@@ -80,6 +97,7 @@ namespace InventoryManagementSystem
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AllowAngularApp");
             app.UseAuthorization();
 
 
@@ -87,6 +105,6 @@ namespace InventoryManagementSystem
 
             app.Run();
         }
-        
+
     }
 }

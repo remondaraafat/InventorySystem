@@ -91,7 +91,7 @@ namespace InventoryManagementSystem.Controllers
         }
         //low stock
         [HttpGet]
-        [Authorize("Admin")]
+      //  [Authorize("Admin")]
         public async Task<IActionResult> GetLowStockReport([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10) 
         {
             if (pageSize > 50)

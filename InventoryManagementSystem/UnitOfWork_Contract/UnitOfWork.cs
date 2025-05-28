@@ -10,6 +10,7 @@ namespace InventoryManagementSystem.UnitOfWork_Contract
          IProductStockRepository _productStockRepository;
         ICategoryRepository _categoryRepository;
         ITransactionTypeRepository _transactionTypeRepository;
+        IWarehouseRepository _warehouseRepository;
 
         public UnitOfWork(InventorySystemContext context)
         {
@@ -71,6 +72,17 @@ namespace InventoryManagementSystem.UnitOfWork_Contract
                     _transactionTypeRepository = new TransactionTypeRepository(_context);
                 }
                 return _transactionTypeRepository;
+            }
+        }
+        public IWarehouseRepository WarehouseRepository
+        {
+            get
+            {
+                if (_warehouseRepository == null)
+                {
+                    _warehouseRepository = new WarehouseRepository(_context);
+                }
+                return _warehouseRepository;
             }
         }
 

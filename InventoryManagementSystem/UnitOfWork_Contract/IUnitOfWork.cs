@@ -7,6 +7,7 @@
         public IProductStockRepository ProductStockRepository { get; }
         public ICategoryRepository CategoryRepository { get; }
         public ITransactionTypeRepository TransactionTypeRepository { get; }
+        public IWarehouseRepository WarehouseRepository { get; }
 
 
 
