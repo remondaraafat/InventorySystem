@@ -1,4 +1,5 @@
-﻿using InventoryManagementSystem.DTOs.WarehouseDTOs;
+﻿using InventoryManagementSystem.DTOs.CategoryDTOs;
+using InventoryManagementSystem.DTOs.WarehouseDTOs;
 using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +30,24 @@ namespace InventoryManagementSystem.Controllers
             catch (Exception ex) { 
                // return BadRequest(ex.Message);
                 return StatusCode(500,new {Message= "An error ocured while retrieving the Warehouses." });
+            }
+        }
+        //  [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> CreateًWarehouse(CreateWarehouseDTO DTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                await _warehouseService.AddًWarehouseRequest(DTO);
+                return StatusCode(201, new { message = "Warehouse created successfully." });
+
+                //return CreatedAtAction(nameof(GetAll),new { });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while Creating the Warehouse." });
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using InventoryManagementSystem.DTOs.TransactionTypeDTOs;
+﻿using InventoryManagementSystem.DTOs.CategoryDTOs;
+using InventoryManagementSystem.DTOs.TransactionTypeDTOs;
 using InventoryManagementSystem.DTOs.WarehouseDTOs;
 using InventoryManagementSystem.UnitOfWork_Contract;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,19 @@ namespace InventoryManagementSystem.Services
                 Name = w.Name,
                 Location = w.Location,
             }).ToListAsync();
+        }
+        //add
+        public async Task AddًWarehouseRequest(CreateWarehouseDTO DTO)
+        {
+            Warehouse newWarehouse = new Warehouse()
+            {
+                Name = DTO.Name,
+                Location = DTO.Location
+
+            };
+            _unitOfWork.WarehouseRepository.AddAsync(newWarehouse);
+            await _unitOfWork.SaveAsync();
+
         }
     }
 }
