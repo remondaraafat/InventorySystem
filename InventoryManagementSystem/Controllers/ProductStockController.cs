@@ -90,8 +90,8 @@ namespace InventoryManagementSystem.Controllers
 
         }
         //low stock
-        [HttpGet]
-      //  [Authorize("Admin")]
+        [HttpGet("lowStock")]
+        //  [Authorize("Admin")]
         public async Task<IActionResult> GetLowStockReport([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10) 
         {
             if (pageSize > 50)
@@ -111,6 +111,29 @@ namespace InventoryManagementSystem.Controllers
             {
                 //return BadRequest(ex.Message);
                 return StatusCode(500, new { message = "An error occurred while retrieving the low stock report." });
+            }
+        }
+        [HttpGet("StockFilter")]
+        //  [Authorize("Admin")]
+        public async Task<IActionResult> GetAllStockWithFilterReport([FromQuery] int productID, [FromQuery] int warehouseID,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            if (pageSize > 50)
+            {
+                ModelState.AddModelError(nameof(pageSize), "Page size should be 50 or less.");
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                List<GetAllStockWithFilterDTO> DTO = await _productStockService.GetAllStockwithFilterRequest(pageNumber, pageSize,productID,warehouseID);
+                if (DTO == null || !DTO.Any())
+                    return NotFound(new { message = "Stock not found." });
+
+                return Ok(DTO);
+            }
+            catch (Exception ex)
+            {
+                //return BadRequest(ex.Message);
+                return StatusCode(500, new { message = "An error occurred while retrieving the stock report." });
             }
         }
     }

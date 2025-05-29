@@ -125,7 +125,7 @@ namespace InventoryManagementSystem.Services
             Quantity = s.Quantity,
             LowStockThreshold=s.Product.LowStockThreshold,
             ProductName=s.Product.Name,
-            WarehouseName=s.Product.Name
+            WarehouseName=s.Warehouse.Name
             }).Where(dto=>dto.Quantity<dto.LowStockThreshold)
             .Skip((pageNumber - 1) * pageSize)
         .Take(pageSize)
@@ -133,5 +133,33 @@ namespace InventoryManagementSystem.Services
 
 
         }
+        //low stock report
+        public async Task<List<GetAllStockWithFilterDTO>> GetAllStockwithFilterRequest(
+    int pageNumber, int pageSize, int? ProductID, int? WarehouseID)
+        {
+            var query = _unitOfWork.ProductStockRepository.GetAllAsQueryable()
+                .Select(s => new GetAllStockWithFilterDTO
+                {
+                    ID = s.ID,
+                    ProductId = s.ProductId,
+                    WarehouseId = s.WarehouseId,
+                    Quantity = s.Quantity,
+                    LowStockThreshold = s.Product.LowStockThreshold,
+                    ProductName = s.Product.Name,
+                    WarehouseName = s.Warehouse.Name 
+                });
+
+            if (ProductID>0)
+                query = query.Where(dto => dto.ProductId == ProductID.Value);
+
+            if (WarehouseID>0)
+                query = query.Where(dto => dto.WarehouseId == WarehouseID.Value);
+
+            return await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
     }
 }
